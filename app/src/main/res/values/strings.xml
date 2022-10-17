@@ -10,5 +10,6 @@
     <string name="discover">Discover</string>
     <string name="todo">TODO</string>
     <string name="create_a_story">Create a Story</string>
+    <string name="setting">Setting</string>
     <string name="aboutText">An android developer designs software and applications for Android devices and the Google Play Store. This software developer creates apps used on Android phones and tablets</string>
 </resources>

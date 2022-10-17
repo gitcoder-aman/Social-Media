@@ -47,6 +47,8 @@ public class HomeFragment extends Fragment {
         list.add(new StoryModel(R.drawable.nature, R.drawable.live, R.drawable.user, "Priya Kri"));
         list.add(new StoryModel(R.drawable.animal, R.drawable.video_camera, R.drawable.user, "Kamal Kr"));
         list.add(new StoryModel(R.drawable.bird, R.drawable.video_camera, R.drawable.user, "Jyoti Kri"));
+        list.add(new StoryModel(R.drawable.bird, R.drawable.video_camera, R.drawable.user, "Jyoti Kri"));
+        list.add(new StoryModel(R.drawable.bird, R.drawable.video_camera, R.drawable.user, "Jyoti Kri"));
 
         StoryAdapter adapter = new StoryAdapter(list, getContext());
 
@@ -59,6 +61,9 @@ public class HomeFragment extends Fragment {
         dashboardList = new ArrayList<>();
         dashboardList.add(new DashboardModel(R.drawable.user, R.drawable.animal, R.drawable.ic_bookmark, "Aman Gupta", "Playing with Cat", "464", "12", "50"));
         dashboardList.add(new DashboardModel(R.drawable.user, R.drawable.animal, R.drawable.ic_bookmark, "Aman Gupta", "Playing with Cat", "464", "12", "50"));
+        dashboardList.add(new DashboardModel(R.drawable.user, R.drawable.animal, R.drawable.ic_bookmark, "Aman Gupta", "Playing With Cat", "464", "12", "50"));
+        dashboardList.add(new DashboardModel(R.drawable.user, R.drawable.animal, R.drawable.ic_bookmark, "Aman Gupta", "Playing With Cat", "464", "12", "50"));
+        dashboardList.add(new DashboardModel(R.drawable.user, R.drawable.animal, R.drawable.ic_bookmark, "Aman Gupta", "Playing With Cat", "464", "12", "50"));
         dashboardList.add(new DashboardModel(R.drawable.user, R.drawable.animal, R.drawable.ic_bookmark, "Aman Gupta", "Playing With Cat", "464", "12", "50"));
         dashboardList.add(new DashboardModel(R.drawable.user, R.drawable.animal, R.drawable.ic_bookmark, "Aman Gupta", "Playing With Cat", "464", "12", "50"));
         dashboardList.add(new DashboardModel(R.drawable.user, R.drawable.animal, R.drawable.ic_bookmark, "Aman Gupta", "Playing With Cat", "464", "12", "50"));

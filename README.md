@@ -13,3 +13,6 @@ https://github.com/MrNouri/DynamicSizes
 Rounded ImageView 
 https://github.com/vinc3m1/RoundedImageView
 
+Diagonal Layout Android github
+https://github.com/santalu/diagonal-imageview
+
