@@ -37,6 +37,7 @@ public class NotificationFragment extends Fragment {
 
         viewPager = view.findViewById(R.id.viewPager);
 
+        assert getFragmentManager() != null;
         viewPager.setAdapter(new ViewPagerAdapter(getFragmentManager()));
         tabLayout = view.findViewById(R.id.tabLayout);
         tabLayout.setupWithViewPager(viewPager);

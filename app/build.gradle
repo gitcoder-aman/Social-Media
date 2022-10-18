@@ -8,7 +8,7 @@ android {
 
     defaultConfig {
         applicationId "com.tech.socialworld"
-        minSdk 16
+        minSdk 19
         targetSdk 33
         versionCode 1
         versionName "1.0"
@@ -49,5 +49,15 @@ dependencies {
     //Rounded image View
     implementation 'com.makeramen:roundedimageview:2.3.0'
 
+    //diagonal imageView
     implementation 'com.github.santalu:diagonal-imageview:1.1.1'
+
+    //Firebase connecting
+    implementation platform('com.google.firebase:firebase-bom:31.0.0')
+    implementation 'com.google.firebase:firebase-analytics'
+    implementation 'com.google.firebase:firebase-auth'
+    implementation 'com.google.firebase:firebase-database'
+
+    implementation 'com.google.firebase:firebase-core:21.1.1'
 }
+apply plugin: 'com.google.gms.google-services'
