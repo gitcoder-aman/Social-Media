@@ -14,4 +14,5 @@
     <string name="aboutText">An android developer designs software and applications for Android devices and the Google Play Store. This software developer creates apps used on Android phones and tablets</string>
     <string name="profession">Profession</string>
     <string name="name">Name</string>
+    <string name="log_out">Log Out</string>
 </resources>

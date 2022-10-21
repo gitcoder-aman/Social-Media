@@ -2,6 +2,45 @@ package com.tech.socialworld.Model;
 
 public class UserModel {
     private String name,email,password,profession;
+    private String coverPhoto;
+    private String profile;
+    private String userID;
+    private int followerCount;
+
+    public int getFollowerCount() {
+        return followerCount;
+    }
+
+    public void setFollowerCount(int followerCount) {
+        this.followerCount = followerCount;
+    }
+
+    public String getUserID() {
+        return userID;
+    }
+
+    public void setUserID(String userID) {
+        this.userID = userID;
+    }
+
+    public String getProfile() {
+        return profile;
+    }
+
+    public void setProfile(String profile) {
+        this.profile = profile;
+    }
+
+    public UserModel() {
+    }
+
+    public String getCoverPhoto() {
+        return coverPhoto;
+    }
+
+    public void setCoverPhoto(String coverPhoto) {
+        this.coverPhoto = coverPhoto;
+    }
 
     public UserModel(String name, String profession, String email, String password) {
         this.name = name;
@@ -9,6 +48,7 @@ public class UserModel {
         this.password = password;
         this.profession = profession;
     }
+
 
     public String getName() {
         return name;

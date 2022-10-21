@@ -16,3 +16,6 @@ https://github.com/vinc3m1/RoundedImageView
 Diagonal Layout Android github
 https://github.com/santalu/diagonal-imageview
 
+Picasso A Powerful Image downloading 
+https://github.com/square/picasso
+
