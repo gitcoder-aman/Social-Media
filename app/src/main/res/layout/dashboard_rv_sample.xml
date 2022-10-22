@@ -45,7 +45,7 @@
         app:layout_constraintVertical_bias="0.16000003" />
 
     <TextView
-        android:id="@+id/about"
+        android:id="@+id/bio"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Traveral Life Lover"
@@ -78,6 +78,19 @@
         app:riv_corner_radius="10dip"
         app:riv_mutate_background="true" />
 
+    <TextView
+        android:id="@+id/postDescription"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="8dp"
+        android:text="TextView"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/postImage" />
+
     <ImageView
         android:id="@+id/save"
         android:layout_width="wrap_content"
@@ -101,7 +114,7 @@
         android:gravity="center"
         android:text="354"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/postImage" />
+        app:layout_constraintTop_toBottomOf="@+id/postDescription" />
 
     <TextView
         android:id="@+id/comment"
@@ -115,7 +128,7 @@
         android:gravity="center"
         android:text="54"
         app:layout_constraintStart_toEndOf="@+id/like"
-        app:layout_constraintTop_toBottomOf="@+id/postImage" />
+        app:layout_constraintTop_toBottomOf="@+id/postDescription" />
 
     <TextView
         android:id="@+id/share"
@@ -129,6 +142,16 @@
         android:gravity="center"
         android:text="54"
         app:layout_constraintStart_toEndOf="@+id/comment"
-        app:layout_constraintTop_toBottomOf="@+id/postImage" />
+        app:layout_constraintTop_toBottomOf="@+id/postDescription" />
+
+    <View
+        android:id="@+id/view11"
+        android:layout_width="wrap_content"
+        android:layout_height="1dp"
+        android:layout_marginTop="8dp"
+        android:background="@color/grey"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/share" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

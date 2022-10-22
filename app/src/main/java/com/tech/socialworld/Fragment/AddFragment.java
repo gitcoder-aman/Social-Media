@@ -29,23 +29,28 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 import com.squareup.picasso.Picasso;
+import com.tech.socialworld.Model.PostModel;
 import com.tech.socialworld.Model.UserModel;
 import com.tech.socialworld.R;
 import com.tech.socialworld.databinding.FragmentAddBinding;
 
 import java.io.IOException;
+import java.util.Date;
 import java.util.Objects;
 
 
 public class AddFragment extends Fragment {
 
     FragmentAddBinding binding;
-    ProgressDialog dialog;
+    ProgressDialog dialog,dialog1;
     FirebaseAuth auth;
     FirebaseDatabase database;
+    FirebaseStorage storage;
+    Uri selectImageUri;
 
     public AddFragment() {
         // Required empty public constructor
@@ -57,6 +62,7 @@ public class AddFragment extends Fragment {
 
         auth = FirebaseAuth.getInstance();
         database = FirebaseDatabase.getInstance();
+        storage = FirebaseStorage.getInstance();
 
         super.onCreate(savedInstanceState);
 
@@ -69,18 +75,25 @@ public class AddFragment extends Fragment {
         binding = FragmentAddBinding.inflate(inflater, container, false);
 
         dialog = new ProgressDialog(getContext());
-        dialog.setMessage("Opening gallery");
+        dialog.setMessage("Opening gallery...");
+
+        dialog1 = new ProgressDialog(getContext());
+        dialog1.setProgressStyle(ProgressDialog.STYLE_SPINNER);
+        dialog1.setTitle("Post Uploading");
+        dialog1.setMessage("Please wait...");
+        dialog1.setCancelable(false);
+        dialog1.setCanceledOnTouchOutside(false);
 
         //set profileImage , name,profession
         database.getReference().child("Users")
-                        .child(Objects.requireNonNull(FirebaseAuth.getInstance().getUid())).addListenerForSingleValueEvent(new ValueEventListener() {
+                .child(Objects.requireNonNull(FirebaseAuth.getInstance().getUid())).addListenerForSingleValueEvent(new ValueEventListener() {
                     @Override
                     public void onDataChange(@NonNull DataSnapshot snapshot) {
-                        if(snapshot.exists()){
+                        if (snapshot.exists()) {
                             UserModel userModel = snapshot.getValue(UserModel.class);
                             Picasso.get()
                                     .load(userModel.getProfile())
-                                    .placeholder(R.drawable.placeholder)
+                                    .placeholder(R.drawable.man)
                                     .into(binding.profileImage);
 
                             binding.name.setText(userModel.getName());
@@ -102,12 +115,12 @@ public class AddFragment extends Fragment {
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
                 String description = binding.postDescription.getText().toString();
-                if(!description.isEmpty()){
-                    binding.postBtn.setBackgroundDrawable(ContextCompat.getDrawable(requireContext(),R.drawable.follow_btn_bg));
+                if (!description.isEmpty()) {
+                    binding.postBtn.setBackgroundDrawable(ContextCompat.getDrawable(requireContext(), R.drawable.follow_btn_bg));
                     binding.postBtn.setTextColor(requireContext().getResources().getColor(R.color.white)); //requireContext place to getContext
                     binding.postBtn.setEnabled(true);
-                }else{
-                    binding.postBtn.setBackgroundDrawable(ContextCompat.getDrawable(requireContext(),R.drawable.follow_active_btn));
+                } else {
+                    binding.postBtn.setBackgroundDrawable(ContextCompat.getDrawable(requireContext(), R.drawable.follow_active_btn));
                     binding.postBtn.setTextColor(requireContext().getResources().getColor(R.color.grey)); //requireContext place to getContext
                     binding.postBtn.setEnabled(false);
                 }
@@ -128,6 +141,41 @@ public class AddFragment extends Fragment {
                 launchSomeActivity.launch(intent);
             }
         });
+        binding.postBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                dialog1.show();
+                final StorageReference reference = storage.getReference().child("posts")
+                        .child(FirebaseAuth.getInstance().getUid())
+                        .child(new Date().getTime() + "");
+                reference.putFile(selectImageUri).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+                    @Override
+                    public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                        reference.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+                            @Override
+                            public void onSuccess(Uri uri) {
+                                PostModel postModel = new PostModel();
+                                postModel.setPostImage(uri.toString());
+                                postModel.setPostedBy(FirebaseAuth.getInstance().getUid());
+                                postModel.setPostDescription(binding.postDescription.getText().toString());
+                                postModel.setPostedAt(new Date().getTime());
+
+                                database.getReference().child("posts")
+                                        .push()
+                                        .setValue(postModel).addOnSuccessListener(new OnSuccessListener<Void>() {
+                                            @Override
+                                            public void onSuccess(Void unused) {
+                                                dialog1.dismiss();
+                                                Toast.makeText(getContext(), "Posted Successful.", Toast.LENGTH_SHORT).show();
+                                            }
+                                        });
+                            }
+                        });
+                    }
+                });
+            }
+        });
         return binding.getRoot();
     }
 
@@ -140,7 +188,7 @@ public class AddFragment extends Fragment {
                         Intent data = result.getData();
 
                         if (data != null && data.getData() != null) {
-                            Uri selectImageUri = data.getData();
+                            selectImageUri = data.getData();
                             Bitmap selectedImageBitmap = null;
 
                             try {
@@ -152,7 +200,7 @@ public class AddFragment extends Fragment {
                             binding.postImage.setImageBitmap(selectedImageBitmap);
                             binding.postImage.setVisibility(View.VISIBLE);
 
-                            binding.postBtn.setBackgroundDrawable(ContextCompat.getDrawable(requireContext(),R.drawable.follow_btn_bg));
+                            binding.postBtn.setBackgroundDrawable(ContextCompat.getDrawable(requireContext(), R.drawable.follow_btn_bg));
                             binding.postBtn.setTextColor(requireContext().getResources().getColor(R.color.white)); //requireContext place to getContext
                             binding.postBtn.setEnabled(true);
 
