@@ -15,4 +15,6 @@
     <string name="profession">Profession</string>
     <string name="name">Name</string>
     <string name="log_out">Log Out</string>
+    <string name="create_post">Create Post</string>
+    <string name="post">Post</string>
 </resources>

@@ -81,6 +81,7 @@ public class ProfileFragment extends Fragment {
                         .child("followers").addValueEventListener(new ValueEventListener() {
                     @Override
                     public void onDataChange(@NonNull DataSnapshot snapshot) {
+                        list.clear();
                         for (DataSnapshot dataSnapshot : snapshot.getChildren()){
                             FollowModel followModel = dataSnapshot.getValue(FollowModel.class);
                             list.add(followModel);
