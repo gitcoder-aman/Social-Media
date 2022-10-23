@@ -86,13 +86,16 @@ public class HomeFragment extends Fragment {
         PostAdapter postAdapter = new PostAdapter(postList, getContext());
         LinearLayoutManager layoutManager = new LinearLayoutManager(getContext());
         dashboardRV.setLayoutManager(layoutManager);
+        dashboardRV.addItemDecoration(new DividerItemDecoration(dashboardRV.getContext(),DividerItemDecoration.HORIZONTAL));
         dashboardRV.setAdapter(postAdapter);
 
         database.getReference().child("posts").addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
+                postList.clear();
                 for (DataSnapshot dataSnapshot : snapshot.getChildren()){
                     PostModel postModel = dataSnapshot.getValue(PostModel.class);
+                    postModel.setPostId(dataSnapshot.getKey());
                     postList.add(postModel);
                 }
                 postAdapter.notifyDataSetChanged();

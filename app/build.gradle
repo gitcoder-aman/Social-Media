@@ -43,7 +43,7 @@ dependencies {
     //circular image view
     implementation 'de.hdodenhof:circleimageview:3.1.0'
 
-   //circular dynamic size view
+    //circular dynamic size view
     implementation 'com.github.MrNouri:DynamicSizes:1.0'
 
     //Rounded image View

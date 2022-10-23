@@ -6,6 +6,7 @@ public class PostModel{
     private String postedBy;
     private String postDescription;
     private long postedAt;
+    private int postLike;
 
     public PostModel(String postId, String postImage, String postedBy, String postDescription, long postedAt) {
         this.postId = postId;
@@ -16,6 +17,14 @@ public class PostModel{
     }
 
     public PostModel() {
+    }
+
+    public int getPostLike() {
+        return postLike;
+    }
+
+    public void setPostLike(int postLike) {
+        this.postLike = postLike;
     }
 
     public String getPostId() {
