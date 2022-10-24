@@ -8,6 +8,16 @@ public class PostModel{
     private long postedAt;
     private int postLike;
 
+    public int getCommentCount() {
+        return commentCount;
+    }
+
+    public void setCommentCount(int commentCount) {
+        this.commentCount = commentCount;
+    }
+
+    private int commentCount;
+
     public PostModel(String postId, String postImage, String postedBy, String postDescription, long postedAt) {
         this.postId = postId;
         this.postImage = postImage;

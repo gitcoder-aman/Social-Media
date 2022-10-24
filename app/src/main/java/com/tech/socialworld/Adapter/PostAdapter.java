@@ -1,16 +1,12 @@
 package com.tech.socialworld.Adapter;
 
-import static java.security.AccessController.getContext;
-
 import android.content.Context;
-import android.graphics.drawable.Drawable;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
-import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -20,6 +16,7 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.squareup.picasso.Picasso;
+import com.tech.socialworld.CommentActivity;
 import com.tech.socialworld.Model.PostModel;
 import com.tech.socialworld.Model.UserModel;
 import com.tech.socialworld.R;
@@ -51,9 +48,10 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.viewHolder> {
         PostModel postModel = list.get(position);
         Picasso.get()
                 .load(postModel.getPostImage())
-                .placeholder(R.drawable.placeholder)
+                .placeholder(R.drawable.loading)
                 .into(holder.binding.postImage);
-        holder.binding.like.setText(postModel.getPostLike() + "");
+        holder.binding.like.setText(String.valueOf(postModel.getPostLike()));
+        holder.binding.comment.setText(String.valueOf(postModel.getCommentCount()));
 
         String description = postModel.getPostDescription();
         if (description.equals("")) {
@@ -113,7 +111,7 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.viewHolder> {
                                                                 @Override
                                                                 public void onSuccess(Void unused) {
                                                                     holder.binding.like.setCompoundDrawablesWithIntrinsicBounds(R.drawable.heart, 0, 0, 0);
-                                                                   // Toast.makeText(v.getContext(), "Like", Toast.LENGTH_SHORT).show();
+                                                                    // Toast.makeText(v.getContext(), "Like", Toast.LENGTH_SHORT).show();
                                                                 }
                                                             });
                                                 }
@@ -129,6 +127,17 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.viewHolder> {
                     }
                 });
 
+        //Comment Activity open here
+        holder.binding.comment.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(context, CommentActivity.class);
+                intent.putExtra("postId", postModel.getPostId());
+                intent.putExtra("postedBy", postModel.getPostedBy());
+                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                context.startActivity(intent);
+            }
+        });
     }
 
     @Override

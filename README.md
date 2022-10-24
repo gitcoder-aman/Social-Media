@@ -19,3 +19,6 @@ https://github.com/santalu/diagonal-imageview
 Picasso A Powerful Image downloading 
 https://github.com/square/picasso
 
+time ago android github
+https://github.com/marlonlom/timeago
+
