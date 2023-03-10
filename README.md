@@ -22,3 +22,11 @@ https://github.com/square/picasso
 time ago android github
 https://github.com/marlonlom/timeago
 
+Circular Status View
+https://github.com/3llomi/CircularStatusView
+
+StoryView Github
+https://github.com/OMARIHAMZA/StoryView
+
+Shimmer Recycler View
+https://github.com/sharish/ShimmerRecyclerView

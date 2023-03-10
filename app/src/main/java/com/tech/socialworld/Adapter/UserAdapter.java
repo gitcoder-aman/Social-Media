@@ -19,6 +19,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.squareup.picasso.Picasso;
 import com.tech.socialworld.Model.FollowModel;
+import com.tech.socialworld.Model.NotificationModel;
 import com.tech.socialworld.Model.UserModel;
 import com.tech.socialworld.R;
 import com.tech.socialworld.databinding.UserSampleBinding;
@@ -97,6 +98,18 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.viewHolder> {
                                                                     holder.binding.followBtn.setTextColor(context.getResources().getColor(R.color.grey));
                                                                     holder.binding.followBtn.setEnabled(false);
                                                                     Toast.makeText(context, "You Followed " + userModel.getName(), Toast.LENGTH_SHORT).show();
+
+                                                                    //when anyone follow then Send notification for specific users
+                                                                    NotificationModel notificationModel = new NotificationModel();
+                                                                    notificationModel.setNotificationBy(FirebaseAuth.getInstance().getUid());
+                                                                    notificationModel.setNotificationAt(new Date().getTime());
+                                                                    notificationModel.setType("follow");
+
+                                                                    FirebaseDatabase.getInstance().getReference()
+                                                                            .child("notification")
+                                                                            .child(userModel.getUserID())
+                                                                            .push() //create unique
+                                                                            .setValue(notificationModel);
                                                                 }
                                                             });
                                                 }

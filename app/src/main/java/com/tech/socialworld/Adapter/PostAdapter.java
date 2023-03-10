@@ -17,12 +17,14 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.squareup.picasso.Picasso;
 import com.tech.socialworld.CommentActivity;
+import com.tech.socialworld.Model.NotificationModel;
 import com.tech.socialworld.Model.PostModel;
 import com.tech.socialworld.Model.UserModel;
 import com.tech.socialworld.R;
 import com.tech.socialworld.databinding.DashboardRvSampleBinding;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.Objects;
 
 public class PostAdapter extends RecyclerView.Adapter<PostAdapter.viewHolder> {
@@ -112,6 +114,21 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.viewHolder> {
                                                                 public void onSuccess(Void unused) {
                                                                     holder.binding.like.setCompoundDrawablesWithIntrinsicBounds(R.drawable.heart, 0, 0, 0);
                                                                     // Toast.makeText(v.getContext(), "Like", Toast.LENGTH_SHORT).show();
+
+                                                                    //when user like the post then send notification for specific user
+                                                                    NotificationModel notificationModel = new NotificationModel();
+                                                                    notificationModel.setNotificationBy(FirebaseAuth.getInstance().getUid());
+                                                                    notificationModel.setNotificationAt(new Date().getTime());
+                                                                    notificationModel.setPostID(postModel.getPostId());
+                                                                    notificationModel.setPostedBy(postModel.getPostedBy());
+                                                                    notificationModel.setType("like");
+
+                                                                    FirebaseDatabase.getInstance().getReference()
+                                                                            .child("notification")
+                                                                            .child(postModel.getPostedBy())
+                                                                            .push() //create unique child for push data
+                                                                            .setValue(notificationModel);
+
                                                                 }
                                                             });
                                                 }
@@ -127,7 +144,7 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.viewHolder> {
                     }
                 });
 
-        //Comment Activity open here
+        //pass data from postAdapter to Comment Activity open here
         holder.binding.comment.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

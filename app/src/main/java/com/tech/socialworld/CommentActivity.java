@@ -19,6 +19,7 @@ import com.google.firebase.database.ValueEventListener;
 import com.squareup.picasso.Picasso;
 import com.tech.socialworld.Adapter.CommentAdapter;
 import com.tech.socialworld.Model.CommentModel;
+import com.tech.socialworld.Model.NotificationModel;
 import com.tech.socialworld.Model.PostModel;
 import com.tech.socialworld.Model.UserModel;
 import com.tech.socialworld.databinding.ActivityCommentBinding;
@@ -186,6 +187,20 @@ public class CommentActivity extends AppCompatActivity {
                                                             public void onSuccess(Void unused) {
                                                                 binding.commentET.setText("");
                                                                 Toast.makeText(CommentActivity.this, "Commented", Toast.LENGTH_SHORT).show();
+
+                                                                //when user comment the post then send notification for specific user
+                                                                NotificationModel notificationModel = new NotificationModel();
+                                                                notificationModel.setNotificationBy(FirebaseAuth.getInstance().getUid());
+                                                                notificationModel.setNotificationAt(new Date().getTime());
+                                                                notificationModel.setPostID(postId); //postID pass from postAdapter through intent
+                                                                notificationModel.setPostedBy(postedBy); //postBy pass from postAdapter though intent
+                                                                notificationModel.setType("comment");
+
+                                                                FirebaseDatabase.getInstance().getReference()
+                                                                        .child("notification")
+                                                                        .child(postedBy)
+                                                                        .push()   //create unique child
+                                                                        .setValue(notificationModel);
                                                             }
                                                         });
                                             }

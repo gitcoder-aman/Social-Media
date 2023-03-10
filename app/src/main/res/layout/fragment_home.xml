@@ -11,8 +11,10 @@
         android:layout_height="match_parent"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.0"
         tools:ignore="SpeakableTextPresentCheck">
 
         <androidx.constraintlayout.widget.ConstraintLayout
@@ -24,14 +26,14 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="16dp"
+                android:layout_marginLeft="16dp"
                 android:text="@string/discover"
                 android:textColor="@color/black"
                 android:textSize="@dimen/_24mdp"
                 android:textStyle="bold"
                 app:layout_constraintBottom_toBottomOf="@+id/profile_image"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="@+id/profile_image"
-                android:layout_marginLeft="16dp" />
+                app:layout_constraintTop_toTopOf="@+id/profile_image" />
 
             <de.hdodenhof.circleimageview.CircleImageView
                 android:id="@+id/profile_image"
@@ -39,11 +41,11 @@
                 android:layout_height="@dimen/_40mdp"
                 android:layout_marginTop="4dp"
                 android:layout_marginEnd="16dp"
+                android:layout_marginRight="16dp"
                 android:padding="4dp"
                 android:src="@drawable/user"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                android:layout_marginRight="16dp" />
+                app:layout_constraintTop_toTopOf="parent" />
 
             <View
                 android:id="@+id/view1"
@@ -67,12 +69,14 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/view1" />
 
-            <HorizontalScrollView
+            <ScrollView
                 android:id="@+id/horizontalScrollView2"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
+                android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
-                android:scrollbars="none"
+                android:scrollbars="horizontal"
+                android:fillViewport="true"
+                android:nestedScrollingEnabled="false"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.5"
                 app:layout_constraintStart_toStartOf="parent"
@@ -81,19 +85,22 @@
 
                 <LinearLayout
                     android:layout_width="wrap_content"
-                    android:layout_height="match_parent">
+                    android:layout_height="match_parent"
+                    android:orientation="horizontal">
 
                     <androidx.constraintlayout.widget.ConstraintLayout
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content">
 
                         <com.makeramen.roundedimageview.RoundedImageView
-                            android:id="@+id/postImage"
+                            android:id="@+id/storyImage"
                             android:layout_width="@dimen/_130mdp"
                             android:layout_height="@dimen/_85mdp"
                             android:layout_marginStart="16dp"
                             android:scaleType="centerCrop"
                             android:src="@drawable/background"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintEnd_toEndOf="parent"
                             app:layout_constraintStart_toStartOf="parent"
                             app:layout_constraintTop_toTopOf="parent"
                             app:riv_border_color="#333333"
@@ -107,23 +114,23 @@
                             android:layout_width="0dp"
                             android:layout_height="0dp"
                             android:background="@drawable/black_shade"
-                            app:layout_constraintBottom_toBottomOf="@+id/postImage"
-                            app:layout_constraintEnd_toEndOf="@id/postImage"
+                            app:layout_constraintBottom_toBottomOf="@+id/storyImage"
+                            app:layout_constraintEnd_toEndOf="@id/storyImage"
                             app:layout_constraintHorizontal_bias="1.0"
-                            app:layout_constraintStart_toStartOf="@+id/postImage"
-                            app:layout_constraintTop_toTopOf="@+id/postImage"
+                            app:layout_constraintStart_toStartOf="@+id/storyImage"
+                            app:layout_constraintTop_toTopOf="@+id/storyImage"
                             app:layout_constraintVertical_bias="0.0" />
 
                         <ImageView
-                            android:id="@+id/imageView"
+                            android:id="@+id/ImageView"
                             android:layout_width="@dimen/_30mdp"
                             android:layout_height="@dimen/_30mdp"
                             android:contentDescription="@string/todo"
                             android:src="@drawable/plus"
-                            app:layout_constraintBottom_toBottomOf="@+id/postImage"
-                            app:layout_constraintEnd_toEndOf="@+id/postImage"
-                            app:layout_constraintStart_toStartOf="@+id/postImage"
-                            app:layout_constraintTop_toTopOf="@+id/postImage"
+                            app:layout_constraintBottom_toBottomOf="@+id/storyImage"
+                            app:layout_constraintEnd_toEndOf="@+id/storyImage"
+                            app:layout_constraintStart_toStartOf="@+id/storyImage"
+                            app:layout_constraintTop_toTopOf="@+id/storyImage"
                             app:layout_constraintVertical_bias="0.29"
                             tools:ignore="ImageContrastCheck" />
 
@@ -135,10 +142,10 @@
                             android:text="@string/create_a_story"
                             android:textColor="@color/white"
                             android:textSize="18sp"
-                            app:layout_constraintEnd_toEndOf="@+id/imageView"
+                            app:layout_constraintEnd_toEndOf="@+id/ImageView"
                             app:layout_constraintHorizontal_bias="0.473"
-                            app:layout_constraintStart_toStartOf="@+id/imageView"
-                            app:layout_constraintTop_toBottomOf="@+id/imageView" />
+                            app:layout_constraintStart_toStartOf="@+id/ImageView"
+                            app:layout_constraintTop_toBottomOf="@+id/ImageView" />
 
                     </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -146,10 +153,10 @@
                         android:id="@+id/storyRV"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:layout_marginStart="16dp" />
+                        android:layout_marginStart="8dp" />
 
                 </LinearLayout>
-            </HorizontalScrollView>
+            </ScrollView>
 
             <View
                 android:id="@+id/view4"
@@ -162,7 +169,7 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/horizontalScrollView2" />
 
-            <androidx.recyclerview.widget.RecyclerView
+            <com.cooltechworks.views.shimmer.ShimmerRecyclerView
                 android:id="@+id/dashboardRV"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
@@ -173,7 +180,9 @@
                 android:layout_marginRight="16dp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/view4" />
+                app:layout_constraintTop_toBottomOf="@+id/view4"
+                app:shimmer_demo_child_count="10"
+                app:shimmer_demo_layout="@layout/demo_shimmer_post" />
 
 
         </androidx.constraintlayout.widget.ConstraintLayout>

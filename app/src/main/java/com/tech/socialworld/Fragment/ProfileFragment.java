@@ -78,11 +78,11 @@ public class ProfileFragment extends Fragment {
 
         database.getReference().child("Users")
                 .child(Objects.requireNonNull(auth.getUid()))
-                        .child("followers").addValueEventListener(new ValueEventListener() {
+                .child("followers").addValueEventListener(new ValueEventListener() {
                     @Override
                     public void onDataChange(@NonNull DataSnapshot snapshot) {
                         list.clear();
-                        for (DataSnapshot dataSnapshot : snapshot.getChildren()){
+                        for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
                             FollowModel followModel = dataSnapshot.getValue(FollowModel.class);
                             list.add(followModel);
                         }
@@ -113,7 +113,7 @@ public class ProfileFragment extends Fragment {
 
                     binding.username.setText(userModel.getName());
                     binding.profession.setText(userModel.getProfession());
-                    binding.followersNo.setText(userModel.getFollowerCount()+"");
+                    binding.followersNo.setText(userModel.getFollowerCount() + "");
                 }
             }
 
@@ -168,7 +168,9 @@ public class ProfileFragment extends Fragment {
                                 e.printStackTrace();
                             }
                             binding.image.setImageBitmap(selectedImageBitmap);
-                            final StorageReference reference = storage.getReference().child("child_photo").child(Objects.requireNonNull(FirebaseAuth.getInstance().getUid()));
+                            final StorageReference reference = storage.getReference()
+                                    .child("child_photo")
+                                    .child(Objects.requireNonNull(FirebaseAuth.getInstance().getUid()));
                             reference.putFile(selectImageUri).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
                                 @Override
                                 public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {

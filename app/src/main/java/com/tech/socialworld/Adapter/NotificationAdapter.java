@@ -1,6 +1,9 @@
 package com.tech.socialworld.Adapter;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
+import android.content.Intent;
+import android.graphics.Color;
 import android.text.Html;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -8,17 +11,26 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
+import com.squareup.picasso.Picasso;
+import com.tech.socialworld.CommentActivity;
 import com.tech.socialworld.Model.NotificationModel;
+import com.tech.socialworld.Model.UserModel;
 import com.tech.socialworld.R;
+import com.tech.socialworld.databinding.Notification2sampleBinding;
 
 import java.util.ArrayList;
 
 public class NotificationAdapter extends RecyclerView.Adapter<NotificationAdapter.viewHolder> {
 
-    ArrayList<NotificationModel>list;
+    ArrayList<NotificationModel> list;
     Context context;
 
     public NotificationAdapter(ArrayList<NotificationModel> list, Context context) {
@@ -30,16 +42,69 @@ public class NotificationAdapter extends RecyclerView.Adapter<NotificationAdapte
     @Override
     public viewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
 
-        View view = LayoutInflater.from(context).inflate(R.layout.notification2sample,parent,false);
+        View view = LayoutInflater.from(context).inflate(R.layout.notification2sample, parent, false);
         return new viewHolder(view);
     }
 
     @Override
     public void onBindViewHolder(@NonNull viewHolder holder, int position) {
-        NotificationModel model = list.get(position);
-        holder.profile.setImageResource(model.getProfile());
-        holder.notification.setText(Html.fromHtml(model.getNotification()));
-        holder.time.setText(model.getTime());
+        NotificationModel notificationModel = list.get(position);
+
+        String type = notificationModel.getType();
+
+        FirebaseDatabase.getInstance().getReference()
+                .child("Users")
+                .child(notificationModel.getNotificationBy()).addValueEventListener(new ValueEventListener() {
+
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot snapshot) {
+                        UserModel userModel = snapshot.getValue(UserModel.class);
+                        Picasso.get()
+                                .load(userModel.getProfile())
+                                .placeholder(R.drawable.man)
+                                .into(holder.binding.profileImage);
+
+                        if (type.equals("like")) {
+                            holder.binding.notification.setText(Html.fromHtml("<b>" + userModel.getName() + "</b>" + " liked your post"));
+                        } else if (type.equals("comment")) {
+                            holder.binding.notification.setText(Html.fromHtml("<b>" + userModel.getName() + "</b>" + " commented on your post"));
+                        } else {
+                            holder.binding.notification.setText(Html.fromHtml("<b>" + userModel.getName() + "</b>" + " start following you"));
+                        }
+
+                    }
+
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError error) {
+
+                    }
+                });
+        holder.binding.openNotification.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                if (!type.equals("follow")) {
+
+                    //for checkOpen
+                    FirebaseDatabase.getInstance().getReference()
+                            .child("notification")
+                            .child(notificationModel.getPostedBy())
+                            .child(notificationModel.getNotificationID())
+                            .child("checkOpen")
+                            .setValue(true);
+                    holder.binding.openNotification.setBackgroundColor(Color.parseColor("#FFFFFF"));
+                    Intent intent = new Intent(context, CommentActivity.class);
+                    intent.putExtra("postId", notificationModel.getPostID());
+                    intent.putExtra("postedBy", notificationModel.getPostedBy());
+                    intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                    context.startActivity(intent);
+                }
+            }
+        });
+        boolean checkOpen = notificationModel.isCheckOpen();
+        if(checkOpen){
+            holder.binding.openNotification.setBackgroundColor(Color.parseColor("#FFFFFF"));
+        }
 
     }
 
@@ -48,16 +113,13 @@ public class NotificationAdapter extends RecyclerView.Adapter<NotificationAdapte
         return list.size();
     }
 
-    public static class viewHolder extends RecyclerView.ViewHolder{
+    public static class viewHolder extends RecyclerView.ViewHolder {
 
-        ImageView profile;
-        TextView notification,time;
+        Notification2sampleBinding binding;
 
         public viewHolder(@NonNull View itemView) {
             super(itemView);
-            profile = itemView.findViewById(R.id.profile_image);
-            notification = itemView.findViewById(R.id.notification);
-            time = itemView.findViewById(R.id.time);
+            binding = Notification2sampleBinding.bind(itemView);
         }
     }
 }

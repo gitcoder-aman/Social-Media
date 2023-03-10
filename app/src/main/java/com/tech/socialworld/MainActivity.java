@@ -1,5 +1,7 @@
 package com.tech.socialworld;
 
+import static com.tech.socialworld.Fragment.NotificationFragment.notificationViewPager;
+
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.FragmentTransaction;
@@ -14,27 +16,31 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Toast;
 
+import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.navigation.NavigationBarView;
 import com.google.firebase.auth.FirebaseAuth;
 import com.tech.socialworld.Fragment.AddFragment;
 import com.tech.socialworld.Fragment.HomeFragment;
+
 import com.tech.socialworld.Fragment.NotificationFragment;
 import com.tech.socialworld.Fragment.ProfileFragment;
 import com.tech.socialworld.Fragment.SearchFragment;
 import com.tech.socialworld.databinding.ActivityMainBinding;
 
-import java.util.Objects;
 
 public class MainActivity extends AppCompatActivity {
 
     ActivityMainBinding binding;
     FirebaseAuth auth;
+
+    public static BottomNavigationView bottomNavigation;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         binding = ActivityMainBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
+        bottomNavigation = findViewById(R.id.bottom_navigation);
         auth = FirebaseAuth.getInstance();
 //        Objects.requireNonNull(getSupportActionBar()).hide(); // just hide the app title
 
@@ -45,7 +51,7 @@ public class MainActivity extends AppCompatActivity {
         transaction.replace(R.id.container_id,new HomeFragment());
         transaction.commit();
 
-        binding.bottomNavigation.setOnItemSelectedListener(new NavigationBarView.OnItemSelectedListener() {
+        bottomNavigation.setOnItemSelectedListener(new NavigationBarView.OnItemSelectedListener() {
             @SuppressLint("NonConstantResourceId")
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
